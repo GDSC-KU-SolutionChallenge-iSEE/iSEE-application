@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:isee/camera/camera_screen.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key, required this.title});
@@ -20,11 +21,17 @@ class _HomePageState extends State<HomePage> {
       body: Center(
           child: Column(
         children: [
-          Container(
-            width: 100,
-            height: 80,
-            color: Colors.blueAccent,
-            child: const Text("스캔 버튼"),
+          GestureDetector(
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const CameraScreen()));
+            },
+            child: Container(
+              width: 100,
+              height: 80,
+              color: Colors.blueAccent,
+              child: const Text("스캔 버튼"),
+            ),
           ),
           Container(
             width: 100,

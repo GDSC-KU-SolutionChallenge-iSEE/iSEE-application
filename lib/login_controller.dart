@@ -9,10 +9,6 @@ class LoginController extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn googleSignIn = GoogleSignIn();
 
-  test() {
-    print("test");
-  }
-
   Future<dynamic> addUser(idToken) async {
     final response = await http.post(
       Uri.parse('https://isee-server-3i3g4hvcqq-du.a.run.app/users'),
@@ -37,8 +33,6 @@ class LoginController extends GetxController {
         idToken: googleSignInAuthentication.idToken,
       );
 
-      print("test");
-
       final authResult = await _auth.signInWithCredential(credential);
 
       final User? user = authResult.user;
@@ -50,9 +44,6 @@ class LoginController extends GetxController {
       assert(user.uid == currentUser!.uid);
 
       final res = await addUser(idToken);
-      // print(res);
-
-      print(currentUser!.uid);
 
       Get.toNamed('/home'); // navigate to your wanted page
       return;

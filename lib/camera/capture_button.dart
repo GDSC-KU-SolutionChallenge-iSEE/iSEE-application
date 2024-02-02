@@ -8,7 +8,7 @@ class CaptureButton extends GetView<ScanController> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      // onTap: () => cotroller.capture(),
+      onTap: () => controller.capture(),
       child: Container(
         width: 100,
         height: 100,
