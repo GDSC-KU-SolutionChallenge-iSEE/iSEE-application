@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 import 'package:http/http.dart' as http;
 import 'package:camera/camera.dart';
 import 'package:get/state_manager.dart';
@@ -17,6 +18,8 @@ class ScanController extends GetxController {
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
+  final FlutterTts tts = FlutterTts();
+
   Future<void> _initCamera() async {
     _cameras = await availableCameras();
     _cameraController = CameraController(_cameras[0], ResolutionPreset.max);
@@ -25,7 +28,6 @@ class ScanController extends GetxController {
 
       _cameraController.startImageStream((image) {
         _cameraImage = image;
-        print(image);
       });
     }).catchError((Object e) {
       if (e is CameraException) {
@@ -54,10 +56,16 @@ class ScanController extends GetxController {
           'Authorization': 'Bearer $idToken',
         },
         body: {
-          'bus_image': imageString
+          'bus_image': "string"
         });
 
     print(response.statusCode);
+
+    if (response.statusCode == 201) {
+      final result = jsonDecode(utf8.decode(response.bodyBytes));
+      print(result);
+      return result;
+    }
   }
 
   void capture() async {
@@ -66,6 +74,16 @@ class ScanController extends GetxController {
     final idToken = await _auth.currentUser!.getIdToken();
 
     final res = await requestBusNum(idToken, captureImage);
+
+    var busIds = res["result"]["bus_ids"];
+
+    print(busIds);
+
+    var busIdText = busIds.join("번, ");
+
+    print(busIdText);
+
+    tts.speak(busIdText);
   }
 
   // UInt8List to Base64

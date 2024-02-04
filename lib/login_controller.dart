@@ -81,7 +81,7 @@ class LoginController extends GetxController {
       if (!isNew) {
         final res = await addUser(idToken);
 
-        if (res == 200) {
+        if (res == 201) {
           Get.toNamed('/home');
         }
       } else {
