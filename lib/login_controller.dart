@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:firebase_auth/firebase_auth.dart';
@@ -8,6 +9,17 @@ import 'package:google_sign_in/google_sign_in.dart';
 class LoginController extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn googleSignIn = GoogleSignIn();
+
+  Future<dynamic> isNewUser(idToken) async {
+    final response = await http.post(
+      Uri.parse('https://isee-server-3i3g4hvcqq-du.a.run.app/users'),
+      headers: {
+        'Authorization': 'Bearer $idToken',
+      },
+    );
+
+    print(response.statusCode);
+  }
 
   Future<dynamic> addUser(idToken) async {
     final response = await http.post(
@@ -37,11 +49,14 @@ class LoginController extends GetxController {
 
       final User? user = authResult.user;
       assert(!user!.isAnonymous);
+
       final idToken = await user!.getIdToken();
       assert(idToken != null);
-      final User? currentUser = _auth.currentUser;
 
+      final User? currentUser = _auth.currentUser;
       assert(user.uid == currentUser!.uid);
+
+      // final isNew =
 
       final res = await addUser(idToken);
 

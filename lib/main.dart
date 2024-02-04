@@ -17,10 +17,22 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   // This widget is the root of your application.
+  // @override
+  // Widget build(BuildContext context) {
+  //   return GetMaterialApp(
+  //     home: const LoginPage(title: "iSEE"),
+  //     initialBinding: GlobalBindings(),
+  //     getPages: [
+  //       GetPage(name: '/home', page: () => const HomePage(title: "Home"))
+  //     ],
+  //   );
+  // }
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      home: const LoginPage(title: "iSEE"),
+      home: const LoginPage(
+        title: "login",
+      ),
       initialBinding: GlobalBindings(),
       getPages: [
         GetPage(name: '/home', page: () => const HomePage(title: "Home"))
