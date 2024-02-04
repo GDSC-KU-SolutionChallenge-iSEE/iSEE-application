@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -18,7 +19,13 @@ class ScanController extends GetxController {
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  final FlutterTts tts = FlutterTts();
+  final FlutterTts ttsStream = FlutterTts();
+  final FlutterTts ttsCapture = FlutterTts();
+  var _isCaptureReading = false;
+  var busIdList = [];
+
+  late final requestTimer;
+  late final ttsTimer;
 
   Future<void> _initCamera() async {
     _cameras = await availableCameras();
@@ -46,7 +53,44 @@ class ScanController extends GetxController {
   @override
   void onInit() {
     _initCamera();
+    setTimer();
     super.onInit();
+  }
+
+  @override
+  void onClose() {
+    requestTimer.cancel();
+    ttsTimer.cancel();
+    ttsStream.stop();
+    ttsCapture.stop();
+    super.onClose();
+  }
+
+  void setTimer() {
+    requestTimer = Timer.periodic(const Duration(seconds: 5), (timer) async {
+      print("request test");
+      var captureImage = convert();
+
+      final idToken = await _auth.currentUser!.getIdToken();
+
+      final res = await requestBusNum(idToken, captureImage);
+
+      busIdList.addAll(res["result"]["bus_ids"]);
+
+      print(busIdList);
+    });
+
+    ttsTimer = Timer.periodic(const Duration(seconds: 6), (timer) {
+      print("tts test");
+      var busIdText = busIdList.join("번, ");
+      print(busIdText);
+      busIdList = [];
+
+      if (!_isCaptureReading) {
+        ttsStream.stop();
+        ttsStream.speak("$busIdText번이 앞에 있습니다.");
+      }
+    });
   }
 
   Future<dynamic> requestBusNum(idToken, imageString) async {
@@ -83,7 +127,13 @@ class ScanController extends GetxController {
 
     print(busIdText);
 
-    tts.speak(busIdText);
+    ttsStream.stop();
+    ttsCapture.stop();
+
+    _isCaptureReading = true;
+    ttsCapture.speak("${"capture" + busIdText}번이 앞에 있습니다.");
+
+    _isCaptureReading = false;
   }
 
   // UInt8List to Base64
