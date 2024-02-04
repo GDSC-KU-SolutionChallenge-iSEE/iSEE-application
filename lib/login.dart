@@ -107,7 +107,21 @@ class _LoginPageState extends State<LoginPage> {
                         )),
                   ],
                 ),
-              )
+              ),
+            Positioned(
+              bottom: 0,
+              child: GestureDetector(
+                onTap: () {
+                  controller.resign();
+                },
+                child: Container(
+                  width: 100,
+                  height: 100,
+                  color: Colors.amber,
+                  child: const Text("탈퇴하기"),
+                ),
+              ),
+            ),
           ],
         ),
       )),

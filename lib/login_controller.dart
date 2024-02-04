@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'dart:io';
+import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/route_manager.dart';
@@ -10,15 +10,20 @@ class LoginController extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn googleSignIn = GoogleSignIn();
 
-  Future<dynamic> isNewUser(idToken) async {
-    final response = await http.post(
-      Uri.parse('https://isee-server-3i3g4hvcqq-du.a.run.app/users'),
+  Future<dynamic> isNewUser(userId, idToken) async {
+    final response = await http.get(
+      Uri.parse('https://isee-server-3i3g4hvcqq-du.a.run.app/users/$userId'),
       headers: {
         'Authorization': 'Bearer $idToken',
       },
     );
 
-    print(response.statusCode);
+    if (response.statusCode == 200) {
+      final result = jsonDecode(utf8.decode(response.bodyBytes));
+      print(result);
+
+      return result["success"];
+    }
   }
 
   Future<dynamic> addUser(idToken) async {
@@ -30,6 +35,21 @@ class LoginController extends GetxController {
     );
 
     print(response.statusCode);
+    print(jsonDecode(utf8.decode(response.bodyBytes)));
+
+    return response.statusCode;
+  }
+
+  Future<dynamic> resignUser(idToken) async {
+    final response = await http.delete(
+      Uri.parse('https://isee-server-3i3g4hvcqq-du.a.run.app/users'),
+      headers: {
+        'Authorization': 'Bearer $idToken',
+      },
+    );
+
+    print(response.statusCode);
+    print(jsonDecode(utf8.decode(response.bodyBytes)));
   }
 
   googleLogin() async {
@@ -56,16 +76,28 @@ class LoginController extends GetxController {
       final User? currentUser = _auth.currentUser;
       assert(user.uid == currentUser!.uid);
 
-      // final isNew =
+      final isNew = await isNewUser(currentUser!.uid, idToken);
 
-      final res = await addUser(idToken);
+      if (!isNew) {
+        final res = await addUser(idToken);
 
-      Get.toNamed('/home'); // navigate to your wanted page
+        if (res == 200) {
+          Get.toNamed('/home');
+        }
+      } else {
+        Get.toNamed('/home');
+      }
+
       return;
     } catch (e) {
       print(e);
       rethrow;
     }
+  }
+
+  resign() async {
+    final idToken = _auth.currentUser!.getIdToken();
+    await resignUser(idToken);
   }
 
   Future<void> logoutGoogle() async {
