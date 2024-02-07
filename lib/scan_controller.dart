@@ -67,7 +67,7 @@ class ScanController extends GetxController {
   }
 
   void setTimer() {
-    requestTimer = Timer.periodic(const Duration(seconds: 5), (timer) async {
+    requestTimer = Timer.periodic(const Duration(seconds: 1), (timer) async {
       print("request test");
       var captureImage = convert();
 
@@ -80,7 +80,7 @@ class ScanController extends GetxController {
       print(busIdList);
     });
 
-    ttsTimer = Timer.periodic(const Duration(seconds: 6), (timer) {
+    ttsTimer = Timer.periodic(const Duration(seconds: 3), (timer) {
       print("tts test");
       var busIdText = busIdList.join("번, ");
       print(busIdText);
@@ -104,6 +104,7 @@ class ScanController extends GetxController {
         });
 
     print(response.statusCode);
+    print(jsonDecode(utf8.decode(response.bodyBytes)));
 
     if (response.statusCode == 201) {
       final result = jsonDecode(utf8.decode(response.bodyBytes));
