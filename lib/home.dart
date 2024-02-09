@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:isee/camera/camera_screen.dart';
+import 'package:isee/set_bus_screen.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key, required this.title});
@@ -33,11 +34,17 @@ class _HomePageState extends State<HomePage> {
               child: const Text("스캔 버튼"),
             ),
           ),
-          Container(
-            width: 100,
-            height: 80,
-            color: Colors.purpleAccent,
-            child: const Text("탑승 설정"),
+          GestureDetector(
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const SetBusPage(title: "set bus")));
+            },
+            child: Container(
+              width: 100,
+              height: 80,
+              color: Colors.purpleAccent,
+              child: const Text("탑승 설정"),
+            ),
           )
         ],
       )),
