@@ -8,6 +8,9 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 class SetBusController extends GetxController {
   late String stationSearchWord;
+  late String myStationId;
+  late String myStationName;
+
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   setStationSearchWord(input) {
@@ -15,8 +18,7 @@ class SetBusController extends GetxController {
     print(stationSearchWord);
   }
 
-  Future<dynamic> requestStationList(idToken, keyword) async {
-    print("request");
+  Future<dynamic> getStationList(idToken, keyword) async {
     Map<String, String> param = {"keyword": keyword};
 
     final response = await http.get(
@@ -35,11 +37,37 @@ class SetBusController extends GetxController {
     }
   }
 
+  Future<dynamic> getBusList(idToken, nodeId) async {
+    final response = await http.get(
+      Uri.parse(
+          'https://isee-server-3i3g4hvcqq-du.a.run.app/nodes/route/$nodeId'),
+      headers: {
+        'Authorization': 'Bearer $idToken',
+      },
+    );
+
+    print(response.statusCode);
+
+    if (response.statusCode == 200) {
+      final result = jsonDecode(utf8.decode(response.bodyBytes));
+      print(result);
+    }
+  }
+
   searchStation(input) async {
     setStationSearchWord(input);
 
     final idToken = await _auth.currentUser!.getIdToken();
 
-    await requestStationList(idToken, stationSearchWord);
+    await getStationList(idToken, stationSearchWord);
+  }
+
+  setMyStation(stationId, stationName) async {
+    myStationId = stationId;
+    myStationName = stationName;
+
+    final idToken = await _auth.currentUser!.getIdToken();
+
+    await getBusList(idToken, myStationId);
   }
 }

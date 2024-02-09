@@ -1,21 +1,19 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:isee/bus_list_view.dart';
 import 'package:isee/login_controller.dart';
 import 'package:isee/set_bus_controller.dart';
-import 'package:isee/station_list_view.dart';
 
-class SetBusPage extends StatefulWidget {
-  const SetBusPage({super.key, required this.title});
+class BusListView extends StatefulWidget {
+  const BusListView({super.key, required this.title});
 
   final String title;
 
   @override
-  State<SetBusPage> createState() => _SetBusPageState();
+  State<BusListView> createState() => _BusListViewState();
 }
 
-class _SetBusPageState extends State<SetBusPage> {
+class _BusListViewState extends State<BusListView> {
   @override
   void initState() {
     // TODO: implement initState
@@ -31,12 +29,18 @@ class _SetBusPageState extends State<SetBusPage> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
         body: Center(
-      child: Stack(
+      child: Column(
         children: [
-          BusListView(title: "buslist"),
-          StationListView(title: "stationList"),
+          const SizedBox(
+            height: 500,
+          ),
+          Container(
+            width: 338,
+            height: 56,
+            color: Colors.amber,
+          )
         ],
       ),
     ));
