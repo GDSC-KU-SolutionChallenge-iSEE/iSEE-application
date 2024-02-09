@@ -1,9 +1,6 @@
 import 'dart:async';
-
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:isee/login_controller.dart';
 
 class LoginPage extends StatefulWidget {
@@ -18,28 +15,28 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final LoginController controller = Get.put(LoginController());
 
-  double _width = 200;
-  double _height = 200;
-  double _bottom = 300;
+  double _width = 336;
+  double _height = 336;
+  double _bottom = 0;
   double _bottomLogin = 0;
-  double _bottomText = 300;
+  double _bottomText = 0;
 
   bool _isShow = false;
 
   @override
   void initState() {
     // TODO: implement initState
-    Timer(const Duration(seconds: 3), () {
+    Timer(const Duration(milliseconds: 50), () {
       setState(() {
         _isShow = true;
-        _width = 100.0;
-        _height = 100.0;
-        _bottom = 600.0;
-        _bottomText = 500.0;
+        _width = 192.0;
+        _height = 192.0;
+        _bottom = 200;
+        _bottomText = 120;
       });
     });
 
-    Timer(const Duration(milliseconds: 3100), () {
+    Timer(const Duration(milliseconds: 150), () {
       setState(() {
         _bottomLogin = 300.0;
       });
@@ -61,8 +58,10 @@ class _LoginPageState extends State<LoginPage> {
               alignment: Alignment.center,
               children: [
                 AnimatedPositioned(
-                  bottom: _bottomText,
-                  duration: const Duration(milliseconds: 500),
+                  bottom: (_bottomText +
+                      (MediaQuery.of(context).size.height - 336) / 2 -
+                      78),
+                  duration: const Duration(milliseconds: 800),
                   curve: Curves.easeInOut,
                   child: SizedBox(
                       width: _width,
@@ -70,20 +69,21 @@ class _LoginPageState extends State<LoginPage> {
                       child: const Text(
                         "iSEE",
                         textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 24),
+                        style: TextStyle(
+                            fontSize: 24, fontFamily: 'PretendardExtraBold'),
                       )),
                 ),
                 AnimatedPositioned(
-                  bottom: _bottom,
-                  duration: const Duration(milliseconds: 500),
+                  bottom: (_bottom +
+                      (MediaQuery.of(context).size.height - 336) / 2),
+                  duration: const Duration(milliseconds: 800),
                   curve: Curves.easeInOut,
                   child: AnimatedContainer(
                     width: _width,
                     height: _height,
-                    color: Colors.blueAccent,
-                    duration: const Duration(milliseconds: 500),
+                    duration: const Duration(milliseconds: 800),
                     curve: Curves.easeInOut,
-                    child: const Text("로고 박스"),
+                    child: Image.asset("assets/logo.png"),
                   ),
                 ),
               ],
@@ -98,30 +98,41 @@ class _LoginPageState extends State<LoginPage> {
                   children: [
                     AnimatedPositioned(
                         bottom: _bottomLogin,
-                        duration: const Duration(milliseconds: 500),
+                        duration: const Duration(milliseconds: 800),
                         curve: Curves.easeInOut,
                         child: Container(
                           height: 48,
                           width: 300,
-                          color: Colors.redAccent,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                              border: Border.all(color: Colors.black, width: 1),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(100))),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Image.asset(
+                                "assets/google_login.png",
+                                width: 22,
+                                height: 22,
+                              ),
+                              const SizedBox(
+                                width: 16,
+                              ),
+                              const Text(
+                                "Continue with Google",
+                                style: TextStyle(
+                                  fontFamily: 'PretendardSemiBold',
+                                  fontSize: 14,
+                                ),
+                              )
+                            ],
+                          ),
                         )),
                   ],
                 ),
               ),
-            Positioned(
-              bottom: 0,
-              child: GestureDetector(
-                onTap: () {
-                  controller.resign();
-                },
-                child: Container(
-                  width: 100,
-                  height: 100,
-                  color: Colors.amber,
-                  child: const Text("탈퇴하기"),
-                ),
-              ),
-            ),
           ],
         ),
       )),
