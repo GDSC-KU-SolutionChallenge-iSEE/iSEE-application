@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:isee/camera/camera_screen.dart';
+import 'package:isee/global_controller.dart';
 import 'package:isee/set_bus_screen.dart';
 
 class HomePage extends StatefulWidget {
