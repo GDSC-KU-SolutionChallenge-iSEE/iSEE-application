@@ -105,7 +105,8 @@ class _LoginPageState extends State<LoginPage> {
                           width: 300,
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
-                              border: Border.all(color: Colors.black, width: 1),
+                              border: Border.all(
+                                  color: const Color(0xFF101010), width: 1),
                               borderRadius:
                                   const BorderRadius.all(Radius.circular(100))),
                           child: Row(
