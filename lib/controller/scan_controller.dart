@@ -20,7 +20,7 @@ class ScanController extends GetxController {
 
   final FlutterTts ttsStream = FlutterTts();
   final FlutterTts ttsCapture = FlutterTts();
-  var _isCaptureReading = false;
+  final _isCaptureReading = false;
   var busIdList = [];
 
   late final requestTimer;
