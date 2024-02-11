@@ -6,7 +6,6 @@ import 'package:flutter_tts/flutter_tts.dart';
 import 'package:http/http.dart' as http;
 import 'package:camera/camera.dart';
 import 'package:get/state_manager.dart';
-import 'package:image/image.dart' as img;
 
 class ScanController extends GetxController {
   final RxBool _isInitialized = RxBool(false);

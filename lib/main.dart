@@ -2,9 +2,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:isee/global_bindings.dart';
-import 'package:isee/bottom_navigation.dart';
-import 'package:isee/global_controller.dart';
-import 'package:isee/login.dart';
+import 'package:isee/ui/bottom_navigation.dart';
+import 'package:isee/controller/global_controller.dart';
+import 'package:isee/ui/login.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

@@ -1,7 +1,7 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:isee/scan_controller.dart';
+import 'package:isee/controller/scan_controller.dart';
 
 class CameraVeiwer extends GetView<ScanController> {
   const CameraVeiwer({Key? key}) : super(key: key);

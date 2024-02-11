@@ -2,9 +2,8 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:isee/camera/camera_screen.dart';
-import 'package:isee/global_controller.dart';
-import 'package:isee/set_bus_screen.dart';
+import 'package:isee/ui/bus_scan/camera_screen.dart';
+import 'package:isee/ui/set_bus/set_bus_screen.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

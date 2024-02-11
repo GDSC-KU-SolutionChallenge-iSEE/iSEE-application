@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:isee/login_controller.dart';
+import 'package:isee/controller/login_controller.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key, required this.title});

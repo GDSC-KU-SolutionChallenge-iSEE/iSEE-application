@@ -1,11 +1,6 @@
 import 'dart:async';
-import 'dart:convert';
 import 'package:flutter_tts/flutter_tts.dart';
-import 'package:http/http.dart' as http;
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:get/route_manager.dart';
 import 'package:get/state_manager.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 
 class GlobalController extends GetxController {
   final FlutterTts tts = FlutterTts();

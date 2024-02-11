@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:isee/camera/camera_screen.dart';
-import 'package:isee/global_controller.dart';
-import 'package:isee/home.dart';
-import 'package:isee/set_bus_screen.dart';
+import 'package:isee/ui/home.dart';
 
 class BottomNavigationView extends StatefulWidget {
   const BottomNavigationView({super.key});

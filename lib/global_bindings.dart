@@ -1,8 +1,8 @@
 import 'package:get/instance_manager.dart';
-import 'package:isee/global_controller.dart';
-import 'package:isee/login_controller.dart';
-import 'package:isee/scan_controller.dart';
-import 'package:isee/set_bus_controller.dart';
+import 'package:isee/controller/global_controller.dart';
+import 'package:isee/controller/login_controller.dart';
+import 'package:isee/controller/scan_controller.dart';
+import 'package:isee/controller/set_bus_controller.dart';
 
 class GlobalBindings extends Bindings {
   @override

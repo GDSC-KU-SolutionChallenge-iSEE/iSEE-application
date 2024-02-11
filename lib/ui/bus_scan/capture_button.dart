@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:isee/scan_controller.dart';
+import 'package:isee/controller/scan_controller.dart';
 
 class CaptureButton extends GetView<ScanController> {
   const CaptureButton({Key? key}) : super(key: key);

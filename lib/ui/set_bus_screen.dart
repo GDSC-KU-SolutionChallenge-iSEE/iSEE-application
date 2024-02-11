@@ -1,11 +1,7 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:isee/bus_list_view.dart';
-import 'package:isee/global_controller.dart';
-import 'package:isee/login_controller.dart';
-import 'package:isee/set_bus_controller.dart';
-import 'package:isee/station_list_view.dart';
+import 'package:isee/controller/set_bus_controller.dart';
+import 'package:isee/ui/set_bus/station_list_view.dart';
 
 class SetBusPage extends StatefulWidget {
   const SetBusPage({super.key, required this.title});
