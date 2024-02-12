@@ -33,7 +33,6 @@ class _SetBusPageState extends State<SetBusPage> {
         body: Center(
       child: Stack(
         children: [
-          // BusListView(title: "buslist"),
           StationListView(title: "stationList"),
         ],
       ),

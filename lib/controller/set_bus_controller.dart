@@ -9,22 +9,21 @@ import 'package:isee/model/station_item.dart';
 
 class SetBusController extends GetxController {
   late String stationSearchWord;
-  late String myStationId;
+  late int myStationId;
   late String myStationName;
-  late String myBusId;
+  late int myBusId;
   late String myBusName;
 
   late int arriveSec;
 
-  late List<StationItem> stationList;
-  late List<RouteItem> busList;
-  late List<ArrivingItem> arrivingTimeList;
+  List<StationItem> stationList = [];
+  List<RouteItem> busList = [];
+  List<ArrivingItem> arrivingTimeList = [];
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   setStationSearchWord(input) {
     stationSearchWord = input;
-    print(stationSearchWord);
   }
 
   Future<dynamic> getStationList(idToken, keyword) async {
@@ -38,11 +37,8 @@ class SetBusController extends GetxController {
       },
     );
 
-    print(response.statusCode);
-
     if (response.statusCode == 200) {
       final result = jsonDecode(utf8.decode(response.bodyBytes));
-      print(result);
       return result;
     }
 
@@ -89,7 +85,7 @@ class SetBusController extends GetxController {
     return null;
   }
 
-  searchStation(input) async {
+  Future<List<StationItem>> searchStation(input) async {
     setStationSearchWord(input);
 
     final idToken = await _auth.currentUser!.getIdToken();
@@ -101,10 +97,16 @@ class SetBusController extends GetxController {
       stationList = stationListResponse["result"]
           .map<StationItem>((json) => StationItem.fromJson(json))
           .toList();
+    } else {
+      stationList = [];
     }
+
+    print(stationList);
+
+    return stationList;
   }
 
-  setMyStation(stationId, stationName) async {
+  Future<List<RouteItem>> setMyStation(stationId, stationName) async {
     myStationId = stationId;
     myStationName = stationName;
 
@@ -116,6 +118,8 @@ class SetBusController extends GetxController {
       busList = busListResponse["result"]
           .map<RouteItem>((json) => RouteItem.fromJson(json))
           .toList();
+    } else {
+      busList = [];
     }
 
     final arrivingListResponse = await getArrivingList(idToken, myStationId);
@@ -125,6 +129,8 @@ class SetBusController extends GetxController {
           .map<ArrivingItem>((json) => ArrivingItem.fromJson(json))
           .toList();
     }
+
+    return busList;
   }
 
   setMyBus(routeId, routeName) {

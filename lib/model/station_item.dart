@@ -1,5 +1,5 @@
 class StationItem {
-  final String nodeId;
+  final int nodeId;
   final String nodeName;
   final double x;
   final double y;
@@ -12,7 +12,7 @@ class StationItem {
 
   factory StationItem.fromJson(Map<String, dynamic> json) {
     return StationItem(
-        nodeId: json['node_id'] as String,
+        nodeId: json['node_id'] as int,
         nodeName: json['node_name'] as String,
         x: json['x'] as double,
         y: json['y'] as double);
