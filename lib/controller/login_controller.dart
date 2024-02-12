@@ -96,7 +96,7 @@ class LoginController extends GetxController {
   }
 
   resign() async {
-    final idToken = _auth.currentUser!.getIdToken();
+    final idToken = await _auth.currentUser!.getIdToken();
     await resignUser(idToken);
   }
 
