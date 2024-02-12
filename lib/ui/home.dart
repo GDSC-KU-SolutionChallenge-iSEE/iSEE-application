@@ -92,7 +92,7 @@ class _HomePageState extends State<HomePage> {
                                               fontFamily: 'PretendardExtraBold',
                                               fontSize: 36,
                                               color: Color(0x88101010)),
-                                        )
+                                        ),
                                       ],
                                     ),
                                   ),
@@ -125,17 +125,17 @@ class _HomePageState extends State<HomePage> {
                                                 _scanBusTextShow ? 1.0 : 0.0,
                                             duration: const Duration(
                                                 milliseconds: 400),
-                                            child: const Padding(
-                                              padding:
-                                                  EdgeInsets.only(left: 24.0),
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 24.0),
                                               child: Column(
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: [
-                                                  SizedBox(
+                                                  const SizedBox(
                                                     height: 25,
                                                   ),
-                                                  Text(
+                                                  const Text(
                                                     "SCAN BUS",
                                                     style: TextStyle(
                                                         fontFamily:
@@ -144,10 +144,10 @@ class _HomePageState extends State<HomePage> {
                                                         color:
                                                             Color(0xFFF9F9F9)),
                                                   ),
-                                                  SizedBox(
+                                                  const SizedBox(
                                                     height: 14,
                                                   ),
-                                                  Text(
+                                                  const Text(
                                                     "Opening the camera\nand scan the bus arriving",
                                                     style: TextStyle(
                                                         fontFamily:
@@ -156,6 +156,25 @@ class _HomePageState extends State<HomePage> {
                                                         color:
                                                             Color(0xFFF9F9F9),
                                                         height: 26 / 18),
+                                                  ),
+                                                  const Expanded(
+                                                      child: SizedBox()),
+                                                  Row(
+                                                    children: [
+                                                      const Expanded(
+                                                          child: SizedBox()),
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .only(
+                                                                right: 46.0,
+                                                                bottom: 46.0),
+                                                        child: Image.asset(
+                                                          "assets/home_scan_bus_img.png",
+                                                          width: 62.0,
+                                                        ),
+                                                      )
+                                                    ],
                                                   )
                                                 ],
                                               ),
