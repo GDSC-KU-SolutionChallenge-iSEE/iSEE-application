@@ -6,6 +6,7 @@ import 'package:flutter_tts/flutter_tts.dart';
 import 'package:http/http.dart' as http;
 import 'package:camera/camera.dart';
 import 'package:get/state_manager.dart';
+import 'package:image/image.dart' as img;
 
 class ScanController extends GetxController {
   final RxBool _isInitialized = RxBool(false);
@@ -78,8 +79,6 @@ class ScanController extends GetxController {
     requestTimer = null;
     ttsTimer?.cancel();
     ttsTimer = null;
-    print(requestTimer);
-    print(ttsTimer);
     ttsStream.stop();
     ttsCapture.stop();
     // _isInitialized.value = false;
@@ -116,7 +115,6 @@ class ScanController extends GetxController {
   }
 
   Future<dynamic> requestBusNum(idToken, imageString) async {
-    print("request");
     final response = await http.post(
         Uri.parse('https://isee-server-3i3g4hvcqq-du.a.run.app/bus-image'),
         headers: {
@@ -151,10 +149,6 @@ class ScanController extends GetxController {
       busIdText = busIds.join(", ");
     }
 
-    print(busIds);
-
-    print(busIdText);
-
     ttsStream.stop();
     ttsCapture.stop();
 
@@ -170,9 +164,16 @@ class ScanController extends GetxController {
 
   // UInt8List to Base64
   String convert() {
-    Uint8List imageUint8 = _cameraImage!.planes[0].bytes;
+    img.Image test = img.Image.fromBytes(
+        width: _cameraImage!.width * 2 ~/ 3,
+        height: _cameraImage!.height * 2 ~/ 3,
+        bytes: _cameraImage!.planes[0].bytes.buffer);
 
-    String result = base64Encode(imageUint8);
+    Uint8List resized = Uint8List.fromList(img.encodeJpg(test));
+
+    print(resized.lengthInBytes);
+
+    String result = base64Encode(resized);
 
     return result;
   }
