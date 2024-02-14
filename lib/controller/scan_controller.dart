@@ -63,6 +63,7 @@ class ScanController extends GetxController {
   void onInit() async {
     // TODO: implement onInit
     await _initCamera();
+    setTts();
     setTimer();
     super.onInit();
   }
@@ -141,19 +142,21 @@ class ScanController extends GetxController {
     final idToken = await _auth.currentUser!.getIdToken();
 
     final res = await requestBusNum(idToken, captureImage);
-    var busIds;
-    var busIdText;
+    List busIds = [];
+    String busIdText = "";
 
     if (res != null) {
       busIds = res["result"]["bus_ids"];
-      busIdText = busIds.join(", ");
+      if (busIds.isNotEmpty) {
+        busIdText = busIds.join(", ");
+      }
     }
 
     ttsStream.stop();
     ttsCapture.stop();
 
     _isCaptureReading = true;
-    if (busIds != null) {
+    if (busIds.isNotEmpty) {
       ttsCapture.speak("The number of the bus you captured is $busIdText.");
     } else {
       ttsCapture.speak("There are no buses infront of you.");
