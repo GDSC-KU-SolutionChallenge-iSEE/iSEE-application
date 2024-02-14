@@ -139,9 +139,16 @@ class _StationListViewState extends State<StationListView> {
                                           fontSize: 25,
                                           color: Color(0xFF101010)),
                                       cursorColor: const Color(0xFF101010),
-                                      decoration: const InputDecoration(
+                                      decoration: InputDecoration(
                                           border: InputBorder.none,
-                                          contentPadding: EdgeInsets.all(0.0),
+                                          contentPadding:
+                                              const EdgeInsets.all(0.0),
+                                          hintText: "Search your bus station.",
+                                          hintStyle: TextStyle(
+                                              fontFamily: 'PretendardSemibold',
+                                              fontSize: 20,
+                                              color: const Color(0xFF101010)
+                                                  .withOpacity(0.5)),
                                           isDense: true),
                                       onChanged: (value) {
                                         if (_debounce?.isActive ?? false) {
@@ -207,21 +214,6 @@ class _StationListViewState extends State<StationListView> {
                             ],
                           ),
                         ),
-
-                        // GestureDetector(
-                        //   onTap: () async {
-                        //     controller.setMyBus("100100006", "101");
-                        //     await controller.setMyBusArriveTime();
-
-                        //     globalController.setMyBusTimer(
-                        //         controller.arriveSec, controller.myBusName);
-                        //   },
-                        //   child: Container(
-                        //     width: 100,
-                        //     height: 100,
-                        //     color: Colors.blueAccent,
-                        //   ),
-                        // )
                       ],
                     ),
                   if (!_isSetStation)
