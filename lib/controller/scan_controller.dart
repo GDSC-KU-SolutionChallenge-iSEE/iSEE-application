@@ -2,14 +2,12 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:http/http.dart' as http;
 import 'package:camera/camera.dart';
 import 'package:get/state_manager.dart';
 import 'package:image/image.dart' as imglib;
 import 'package:image/image.dart';
-import 'package:image_gallery_saver/image_gallery_saver.dart';
 
 class ScanController extends GetxController {
   final RxBool _isInitialized = RxBool(false);
