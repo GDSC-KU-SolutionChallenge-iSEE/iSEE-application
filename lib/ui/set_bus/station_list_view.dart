@@ -126,47 +126,43 @@ class _StationListViewState extends State<StationListView> {
                                             width: 2)
                                         : null),
                                 child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 20.0),
-                                  child: GestureDetector(
-                                    onTap: () {},
-                                    child: TextField(
-                                      controller: _stationInputController,
-                                      maxLines: 1,
-                                      focusNode: _stationInputFocusNode,
-                                      style: const TextStyle(
-                                          fontFamily: 'PretendardSemibold',
-                                          fontSize: 25,
-                                          color: Color(0xFF101010)),
-                                      cursorColor: const Color(0xFF101010),
-                                      decoration: InputDecoration(
-                                          border: InputBorder.none,
-                                          contentPadding:
-                                              const EdgeInsets.all(0.0),
-                                          hintText: "Search your bus station.",
-                                          hintStyle: TextStyle(
-                                              fontFamily: 'PretendardSemibold',
-                                              fontSize: 20,
-                                              color: const Color(0xFF101010)
-                                                  .withOpacity(0.5)),
-                                          isDense: true),
-                                      onChanged: (value) {
-                                        if (_debounce?.isActive ?? false) {
-                                          _debounce?.cancel();
-                                        }
-                                        _debounce = Timer(
-                                            const Duration(milliseconds: 500),
-                                            () {});
-                                      },
-                                      onSubmitted: (value) {
-                                        showCupertinoDialog(
-                                            context: context,
-                                            builder:
-                                                (BuildContext buildContext) {
-                                              return StationSelectAlert(value);
-                                            });
-                                      },
-                                    ),
+                                  padding: const EdgeInsets.only(
+                                      left: 20.0, right: 20.0, bottom: 4.0),
+                                  child: TextField(
+                                    controller: _stationInputController,
+                                    maxLines: 1,
+                                    focusNode: _stationInputFocusNode,
+                                    style: const TextStyle(
+                                        fontFamily: 'PretendardSemibold',
+                                        fontSize: 25,
+                                        color: Color(0xFF101010)),
+                                    cursorColor: const Color(0xFF101010),
+                                    decoration: InputDecoration(
+                                        border: InputBorder.none,
+                                        contentPadding:
+                                            const EdgeInsets.all(0.0),
+                                        hintText: "Search your bus station.",
+                                        hintStyle: TextStyle(
+                                            fontFamily: 'PretendardSemibold',
+                                            fontSize: 20,
+                                            color: const Color(0xFF101010)
+                                                .withOpacity(0.5)),
+                                        isDense: true),
+                                    onChanged: (value) {
+                                      if (_debounce?.isActive ?? false) {
+                                        _debounce?.cancel();
+                                      }
+                                      _debounce = Timer(
+                                          const Duration(milliseconds: 500),
+                                          () {});
+                                    },
+                                    onSubmitted: (value) {
+                                      showCupertinoDialog(
+                                          context: context,
+                                          builder: (BuildContext buildContext) {
+                                            return StationSelectAlert(value);
+                                          });
+                                    },
                                   ),
                                 ),
                               ),
@@ -289,8 +285,13 @@ class _StationListViewState extends State<StationListView> {
                             borderRadius:
                                 const BorderRadius.all(Radius.circular(15)),
                           ),
-                          child: Expanded(
-                            child: SingleChildScrollView(child: BusItemView()),
+                          child: Column(
+                            children: [
+                              Expanded(
+                                child:
+                                    SingleChildScrollView(child: BusItemView()),
+                              ),
+                            ],
                           ),
                         )
                       ],

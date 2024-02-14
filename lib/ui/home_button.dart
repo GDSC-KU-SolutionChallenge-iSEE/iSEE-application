@@ -1,12 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:isee/controller/scan_controller.dart';
 
-class HomeButton extends StatelessWidget {
+class HomeButton extends StatefulWidget {
   const HomeButton({Key? key}) : super(key: key);
+
+  @override
+  State<HomeButton> createState() => _HomeButtonState();
+}
+
+class _HomeButtonState extends State<HomeButton> {
+  final ScanController controller = Get.put(ScanController());
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
+      onTap: () async {
+        controller.remove();
         Navigator.of(context).pop();
       },
       child: Container(

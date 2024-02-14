@@ -7,19 +7,23 @@ class GlobalController extends GetxController {
   Timer? myBusTimer;
 
   setMyBusTimer(arriveSeconds, busName) {
+    if (myBusTimer != null) {
+      myBusTimer!.cancel();
+    }
+
     if (arriveSeconds == -1) {
-      tts.speak("현재 운행정보가 없습니다.");
+      tts.speak("There is no arriving information");
     } else if (arriveSeconds <= 60) {
-      tts.speak(busName + "번 버스가 곧 도착합니다.");
+      tts.speak(busName + "will arrive soon");
     } else {
       if (myBusTimer == null) {
         myBusTimer = Timer(Duration(seconds: arriveSeconds - 60), () {
-          tts.speak(busName + "번 버스가 곧 도착합니다.");
+          tts.speak(busName + "will arrive soon");
         });
       } else {
         myBusTimer!.cancel();
         myBusTimer = Timer(Duration(seconds: arriveSeconds - 60), () {
-          tts.speak(busName + "번 버스가 곧 도착합니다.");
+          tts.speak(busName + "will arrive soon");
         });
       }
     }

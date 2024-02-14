@@ -11,8 +11,8 @@ class SetBusController extends GetxController {
   late String stationSearchWord;
   late int myStationId;
   late String myStationName;
-  late int myBusId;
-  late String myBusName;
+  int? myBusId;
+  String? myBusName;
 
   late int arriveSec;
 
