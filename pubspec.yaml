@@ -40,9 +40,14 @@ dependencies:
   firebase_auth: ^4.16.0
   google_sign_in: ^6.2.1
   camera: ^0.10.5+9
-  image: ^4.1.4
   flutter_tts: ^3.8.5
   http: ^1.2.0
+  flutter_launcher_icons: ^0.11.0
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/app_icon.png"
 
 dev_dependencies:
   flutter_test:
