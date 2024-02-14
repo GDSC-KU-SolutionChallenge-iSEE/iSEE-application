@@ -2,11 +2,14 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:http/http.dart' as http;
 import 'package:camera/camera.dart';
 import 'package:get/state_manager.dart';
-import 'package:image/image.dart' as img;
+import 'package:image/image.dart' as imglib;
+import 'package:image/image.dart';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
 
 class ScanController extends GetxController {
   final RxBool _isInitialized = RxBool(false);
@@ -104,12 +107,13 @@ class ScanController extends GetxController {
 
     ttsTimer ??= Timer.periodic(const Duration(seconds: 3), (timer) {
       var busIdText = busIdList.join(", ");
-      busIdList = [];
 
       if (busIdList.isNotEmpty) {
         if (!_isCaptureReading) {
+          // print(busIdText);
           ttsStream.stop();
           ttsStream.speak("Bus $busIdText is infront of you.");
+          busIdList = [];
         }
       }
     });
@@ -137,9 +141,13 @@ class ScanController extends GetxController {
   }
 
   void capture() async {
+    print("tset");
     var captureImage = convert();
 
     final idToken = await _auth.currentUser!.getIdToken();
+
+    // var test = base64Decode(captureImage);
+    // await ImageGallerySaver.saveImage(test);
 
     final res = await requestBusNum(idToken, captureImage);
     List busIds = [];
@@ -167,12 +175,16 @@ class ScanController extends GetxController {
 
   // UInt8List to Base64
   String convert() {
-    img.Image test = img.Image.fromBytes(
-        width: _cameraImage!.width * 2 ~/ 3,
-        height: _cameraImage!.height * 2 ~/ 3,
-        bytes: _cameraImage!.planes[0].bytes.buffer);
+    imglib.Image test = imglib.Image.fromBytes(
+      width: _cameraImage!.width * 2 ~/ 3,
+      height: _cameraImage!.height * 2 ~/ 3,
+      bytes: _cameraImage!.planes[0].bytes.buffer,
+      rowStride: _cameraImage!.planes[0].bytesPerRow,
+      bytesOffset: 28,
+      order: ChannelOrder.bgra,
+    );
 
-    Uint8List resized = Uint8List.fromList(img.encodeJpg(test));
+    Uint8List resized = Uint8List.fromList(imglib.encodeJpg(test));
 
     print(resized.lengthInBytes);
 
