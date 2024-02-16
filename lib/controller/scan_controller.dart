@@ -95,6 +95,7 @@ class ScanController extends GetxController {
 
     if (res != null) {
       busIdList.addAll(res["result"]["bus_ids"]);
+      busIdList = busIdList.toSet().toList();
     }
   }
 
@@ -103,7 +104,7 @@ class ScanController extends GetxController {
       requestOnTimer();
     });
 
-    ttsTimer ??= Timer.periodic(const Duration(seconds: 3), (timer) {
+    ttsTimer ??= Timer.periodic(const Duration(seconds: 6), (timer) {
       var busIdText = busIdList.join(", ");
 
       if (busIdList.isNotEmpty) {
@@ -153,6 +154,7 @@ class ScanController extends GetxController {
 
     if (res != null) {
       busIds = res["result"]["bus_ids"];
+      busIds = busIds.toSet().toList();
       if (busIds.isNotEmpty) {
         busIdText = busIds.join(", ");
       }
@@ -163,9 +165,10 @@ class ScanController extends GetxController {
 
     _isCaptureReading = true;
     if (busIds.isNotEmpty) {
-      ttsCapture.speak("The number of the bus you captured is $busIdText.");
+      await ttsCapture
+          .speak("The number of the bus you captured is $busIdText.");
     } else {
-      ttsCapture.speak("There are no buses infront of you.");
+      await ttsCapture.speak("There are no buses infront of you.");
     }
 
     _isCaptureReading = false;
