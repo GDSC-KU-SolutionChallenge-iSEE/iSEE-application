@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'dart:typed_data';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_tts/flutter_tts.dart';
@@ -181,16 +182,57 @@ class ScanController extends GetxController {
 
   // UInt8List to Base64
   String convert() {
-    imglib.Image test = imglib.Image.fromBytes(
-      width: _cameraImage!.width * 2 ~/ 3,
-      height: _cameraImage!.height * 2 ~/ 3,
-      bytes: _cameraImage!.planes[0].bytes.buffer,
-      rowStride: _cameraImage!.planes[0].bytesPerRow,
-      bytesOffset: 28,
-      order: ChannelOrder.bgra,
-    );
+    imglib.Image formattedImage;
 
-    Uint8List resized = Uint8List.fromList(imglib.encodeJpg(test));
+    if (Platform.isIOS) {
+      formattedImage = imglib.Image.fromBytes(
+        width: _cameraImage!.width * 2 ~/ 3,
+        height: _cameraImage!.height * 2 ~/ 3,
+        bytes: _cameraImage!.planes[0].bytes.buffer,
+        rowStride: _cameraImage!.planes[0].bytesPerRow,
+        bytesOffset: 28,
+        order: ChannelOrder.bgra,
+      );
+    } else {
+      var setImage = _cameraImage;
+
+      final int width = setImage!.width;
+      final int height = setImage.height;
+      final int uvRowStride = setImage.planes[1].bytesPerRow;
+      final int? uvPixelStride = setImage.planes[1].bytesPerPixel;
+      const shift = (0xFF << 24);
+
+      print("uvRowStride: $uvRowStride");
+      print("uvPixelStride: $uvPixelStride");
+
+      formattedImage =
+          imglib.Image(width: height, height: width); // Create Image buffer
+
+      // Fill image buffer with plane[0] from YUV420_888
+      for (int x = 0; x < width; x++) {
+        for (int y = 0; y < height; y++) {
+          final int uvIndex =
+              uvPixelStride! * (x / 2).floor() + uvRowStride * (y / 2).floor();
+          final int index = y * width + x;
+
+          final yp = setImage.planes[0].bytes[index];
+          final up = setImage.planes[1].bytes[uvIndex];
+          final vp = setImage.planes[2].bytes[uvIndex];
+          // Calculate pixel color
+          int r = (yp + vp * 1436 / 1024 - 179).round().clamp(0, 255);
+          int g = (yp - up * 46549 / 131072 + 44 - vp * 93604 / 131072 + 91)
+              .round()
+              .clamp(0, 255);
+          int b = (yp + up * 1814 / 1024 - 227).round().clamp(0, 255);
+
+          if (formattedImage.isBoundsSafe(height - y, x)) {
+            formattedImage.setPixelRgba(height - y, x, r, g, b, shift);
+          }
+        }
+      }
+    }
+
+    Uint8List resized = Uint8List.fromList(imglib.encodeJpg(formattedImage));
 
     print(resized.lengthInBytes);
 
