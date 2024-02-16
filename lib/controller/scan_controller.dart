@@ -171,10 +171,9 @@ class ScanController extends GetxController {
 
     _isCaptureReading = true;
     if (busIds.isNotEmpty) {
-      await ttsCapture
-          .speak("The number of the bus you captured is $busIdText.");
+      ttsCapture.speak("The number of the bus you captured is $busIdText.");
     } else {
-      await ttsCapture.speak("There are no buses infront of you.");
+      ttsCapture.speak("There are no buses infront of you.");
     }
 
     _isCaptureReading = false;
