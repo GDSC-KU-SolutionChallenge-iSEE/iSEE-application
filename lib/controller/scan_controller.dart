@@ -22,6 +22,7 @@ class ScanController extends GetxController {
 
   final FlutterTts ttsStream = FlutterTts();
   final FlutterTts ttsCapture = FlutterTts();
+  FlutterTts shutterSound = FlutterTts();
   bool _isCaptureReading = false;
   var busIdList = [];
 
@@ -54,6 +55,7 @@ class ScanController extends GetxController {
   void setTts() async {
     await ttsCapture.setLanguage("en-US");
     await ttsStream.setLanguage("en-US");
+    await shutterSound.setLanguage("en-US");
   }
 
   void setCamera() {
@@ -140,7 +142,10 @@ class ScanController extends GetxController {
   }
 
   void capture() async {
-    print("tset");
+    ttsStream.stop();
+    ttsCapture.stop();
+    shutterSound.speak("captured");
+
     var captureImage = convert();
 
     final idToken = await _auth.currentUser!.getIdToken();
