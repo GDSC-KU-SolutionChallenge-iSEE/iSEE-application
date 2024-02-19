@@ -35,6 +35,21 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
+  get: ^4.6.5
+  firebase_core: ^2.24.2
+  firebase_auth: ^4.16.0
+  google_sign_in: ^6.2.1
+  camera: ^0.10.5+9
+  flutter_tts: ^3.8.5
+  http: ^1.2.0
+  flutter_launcher_icons: ^0.13.1
+  image: ^4.1.7
+  # image_gallery_saver: ^2.0.3
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/app_icon.png"
 
 dev_dependencies:
   flutter_test:
@@ -57,6 +72,17 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+
+  fonts: 
+    - family: PretendardExtraBold
+      fonts:
+        - asset: fonts/Pretendard-ExtraBold.otf
+    - family: PretendardSemiBold
+      fonts:
+        - asset: fonts/Pretendard-SemiBold.otf
+  
+  assets:
+    - assets/
 
   # To add assets to your application, add an assets section, like this:
   # assets:
